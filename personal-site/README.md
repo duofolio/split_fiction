@@ -16,7 +16,13 @@
 
 ## GitHub Pages
 
-将 `dist/` 中的文件放在 GitHub Pages 仓库根目录，再为对应分支启用 Pages。所有静态资源使用相对地址，兼容个人主页和项目子路径。
+仓库已配置 `.github/workflows/deploy-pages.yml`，直接发布 `personal-site/dist/`，不需要搬动文件或运行构建命令。
+
+首次部署在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。GitHub Free 的 Pages 需要公开仓库；私有仓库需要支持 Pages 的付费方案。
+
+启用后，向 `master` 推送网页修改会自动部署；也可以在 **Actions → Deploy GitHub Pages → Run workflow** 手动发布。等待部署成功后，在 **Settings → Pages** 查看公网地址。
+
+所有静态资源使用相对地址，兼容个人主页和项目子路径。部署只包含 `dist/` 下的网页与素材。
 
 ## 个性化
 
