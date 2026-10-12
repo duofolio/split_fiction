@@ -19,10 +19,11 @@
     $('profile-name').textContent = name;
     $('hello').textContent = `你好，我是 ${name}。`;
     $('profile-handle').textContent = `@${profile.login}`;
-    if (profile.bio) {
-      $('bio').textContent = profile.bio;
-      $('about-bio').textContent = profile.bio;
-      document.querySelector('meta[name="description"]').content = `${name} · ${profile.bio}`;
+    const bio = config.bio || profile.bio;
+    if (bio) {
+      $('bio').textContent = bio;
+      $('about-bio').textContent = config.about || bio;
+      document.querySelector('meta[name="description"]').content = `${name} · ${bio}`;
     }
     const avatarUrl = safeUrl(profile.avatar_url);
     if (avatarUrl) { $('avatar').src = avatarUrl; $('avatar').alt = `${name} 的 GitHub 头像`; $('avatar').hidden = false; }
@@ -33,7 +34,11 @@
   }
   function renderProjects() {
     const query = $('search').value.trim().toLowerCase();
-    const visible = repositories.filter(repo => (language === 'all' || repo.language === language) && `${repo.name} ${repo.description || ''}`.toLowerCase().includes(query));
+    const visible = repositories.filter(repo => {
+      const details = config.projects?.[repo.full_name];
+      const searchable = `${repo.name} ${repo.description || ''} ${details?.title || ''} ${details?.description || ''}`;
+      return (language === 'all' || repo.language === language) && searchable.toLowerCase().includes(query);
+    });
     $('project-grid').replaceChildren();
     status(visible.length ? '' : repositories.length ? '没有匹配的项目，试试其他关键词或语言。' : '这里还没有公开项目。新的探索，正在路上。');
     visible.forEach((repo, index) => {
@@ -43,8 +48,9 @@
       const top = document.createElement('div'); top.className = 'project-top';
       const number = document.createElement('span'); number.textContent = `${String(index + 1).padStart(2, '0')} / ${repo.fork ? 'FORK' : 'PROJECT'}`;
       const arrow = document.createElement('span'); arrow.className = 'arrow'; arrow.textContent = '↗'; top.append(number, arrow);
-      const title = document.createElement('h3'); title.textContent = repo.name;
-      const description = document.createElement('p'); description.textContent = repo.description || '在 GitHub 上查看项目代码与更多信息。';
+      const details = config.projects?.[repo.full_name];
+      const title = document.createElement('h3'); title.textContent = details?.title || repo.name;
+      const description = document.createElement('p'); description.textContent = details?.description || repo.description || '在 GitHub 上查看项目代码与更多信息。';
       const meta = document.createElement('div'); meta.className = 'project-meta';
       const lang = document.createElement('span');
       const dot = document.createElement('i'); dot.className = 'language-dot';

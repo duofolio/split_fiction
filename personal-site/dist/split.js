@@ -74,7 +74,7 @@
     stage.classList.add('transitioning');
     links[person].classList.add('expanding');
     frame.src = links[person].href;
-    status.textContent = `正在展开 ${person === 'yuan' ? 'yuan chao' : 'King bob'} 的主页，按 Escape 返回。`;
+    status.textContent = `正在展开 ${person === 'yuan' ? 'yuan chao' : 'KingBob34'} 的主页，按 Escape 返回。`;
     draw();
   }
   frame.addEventListener('load', () => { ready = true; draw(); });

@@ -3,12 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#262c2a">
-  <title>King bob / split fiction</title>
-  <link rel="stylesheet" href="split.css">
+  <meta name="description" content="KingBob34 · 爱打游戏，爱游戏开发。">
+  <meta name="theme-color" content="#f5f3ec">
+  <title>KingBob34 / split fiction</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="king-bob.css">
+  <script src="king-bob-profile.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
-<body class="empty-space">
-  <header class="empty-header"><a href="index.html" aria-label="返回 split fiction 首页">↖ split fiction</a><span>King bob</span></header>
-  <main aria-label="King bob 的空间"></main>
+<body class="bob-profile">
+  <a class="skip-link" href="#main">跳转到内容</a>
+  <div class="page-shell">
+    <header class="header">
+      <a href="index.html" class="brand" aria-label="返回 split fiction 首页"><span class="brand-mark">*</span><span id="brand-name">split fiction</span><span class="brand-slash">/</span></a>
+      <nav aria-label="主导航"><a href="#projects">项目 <span>01</span></a><a href="#about">关于 <span>02</span></a><a class="github-link" href="https://github.com/KingBob34" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
+    </header>
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-dot"></span> PLAYER & GAME MAKER</p>
+          <p class="hello" id="hello">你好，我是 KingBob34。</p>
+          <h1 id="hero-title">爱玩游戏，<br>也爱<span class="accent">创造</span><span class="period">。</span></h1>
+          <p class="intro" id="bio">爱打游戏，爱游戏开发。</p>
+          <div class="hero-actions"><a class="button" href="#loom">看看我的节点引擎 <span>↗</span></a><a class="text-link github-link" href="https://github.com/KingBob34" target="_blank" rel="noopener noreferrer">在 GitHub 见 <span>↗</span></a></div>
+          <div class="hero-note"><span>PLAY → EXPLORE → CREATE</span><span>向下探索 ↓</span></div>
+        </div>
+        <div class="hero-art node-art" aria-hidden="true">
+          <div class="art-top"><span>EVERY CHOICE TELLS A STORY</span><span>FIG. 002</span></div>
+          <svg class="node-lines" viewBox="0 0 440 440" preserveAspectRatio="none"><path d="M220 159 V209 M220 209 H111 V266 M220 209 H329 V266"/><circle cx="220" cy="209" r="5"/></svg>
+          <div class="story-node node-start"><span>STORY / 01</span><strong>冒险，从这里开始</strong></div>
+          <div class="story-node node-left"><span>CHOICE / A</span><strong>走进森林</strong></div>
+          <div class="story-node node-right"><span>CHOICE / B</span><strong>探索城堡</strong></div>
+          <div class="art-tag"><span class="tiny-dot"></span> one choice, another possibility</div>
+          <div class="art-bottom"><span>把故事连起来，把想法做出来。</span><span>↗</span></div>
+        </div>
+      </section>
+      <div class="info-strip"><span><i class="status-dot"></i> GAMES · STORIES · CODE</span><span id="public-count">游戏 · 节点 · 叙事</span><span>从玩家，到创作者 ↗</span></div>
+      <section class="projects-section" id="projects" aria-labelledby="projects-title">
+        <div class="section-heading"><div><p class="eyebrow">01 / SELECTED WORK</p><h2 id="projects-title">我做的东西<span class="accent">.</span></h2></div><a class="text-link github-link" href="https://github.com/KingBob34" target="_blank" rel="noopener noreferrer">全部仓库 <span>↗</span></a></div>
+        <article class="featured-project" id="loom" aria-labelledby="loom-title">
+          <div class="featured-copy">
+            <p class="eyebrow">FEATURED / 我的节点引擎</p>
+            <h3 id="loom-title">Loom<span class="accent">.</span></h3>
+            <p class="featured-lead">把故事的每一种可能，连成看得见的路线。</p>
+            <p>这是我做的节点式互动叙事引擎。把剧情、选择和条件放到画布上，用连线组织故事走向；一边写，一边在编辑器里试玩。</p>
+            <ul class="feature-list"><li>连接剧情节点，安排不同的分支</li><li>让文字和选项随玩家的状态变化</li><li>导出独立的 Windows 游戏，分享给别人玩</li></ul>
+            <div class="project-tags" aria-label="项目技术与平台"><span>C++17</span><span>Qt 6</span><span>Windows</span></div>
+            <a class="button" href="https://github.com/KingBob34/pgt_project" target="_blank" rel="noopener noreferrer">了解 Loom / 查看源码 <span>↗</span></a>
+          </div>
+          <figure class="featured-preview"><a href="assets/loom-editor.png" target="_blank" rel="noopener noreferrer" aria-label="查看 Loom 编辑器原尺寸截图"><img src="assets/loom-editor.png" width="2560" height="1411" alt="Loom 编辑器：左侧试玩故事，中间通过节点和连线控制选项，右侧查看变量" loading="lazy"></a><figcaption><span>LOOM / EDITOR & PLAYTEST</span><span>实际界面 · 点击放大 ↗</span></figcaption></figure>
+        </article>
+        <div class="project-toolbar"><div class="filters" id="filters" aria-label="项目语言筛选"><button class="filter active" type="button" aria-pressed="true" data-language="all">全部项目</button></div><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索项目" aria-label="搜索项目"></label></div>
+        <p id="project-status" class="project-status" role="status">等待连接 GitHub 主页。</p>
+        <div class="project-grid" id="project-grid"></div>
+        <noscript><p class="project-status">上方可以直接了解 Loom，也可以<a href="https://github.com/KingBob34?tab=repositories">在 GitHub 查看全部公开仓库 ↗</a>。</p></noscript>
+      </section>
+      <section class="about-section" id="about" aria-labelledby="about-title"><div><p class="eyebrow">02 / A LITTLE ABOUT ME</p><h2 id="about-title">游戏里探索，<br>代码里创造<span class="accent">.</span></h2></div><div class="about-body"><p id="about-bio">我是 KingBob34，爱打游戏，也爱游戏开发。这里记录我做过的项目和折腾过的想法。Loom 是其中一个：用节点把故事连起来，让剧情分支和玩家的选择看得更清楚。</p><div class="profile-row"><img id="avatar" alt="GitHub 头像" width="56" height="56" hidden><div><strong id="profile-name">KingBob34</strong><span id="profile-handle">@KingBob34</span></div><a class="profile-arrow github-link" href="https://github.com/KingBob34" target="_blank" rel="noopener noreferrer" aria-label="访问 GitHub 主页">↗</a></div></div></section>
+      <section class="connect" id="connect"><p class="eyebrow">LET’S CONNECT</p><h2>聊聊游戏，<br>也聊聊怎么做游戏<span>↗</span></h2><a class="button button-light github-link" id="connect-link" href="https://github.com/KingBob34" target="_blank" rel="noopener noreferrer">在 GitHub 打个招呼 <span>↗</span></a></section>
+    </main>
+    <footer><span>© <span id="year"></span> <span id="footer-name">split fiction / KingBob34</span></span><span>MADE OF GAMES & CURIOSITY</span><a href="#">回到顶部 ↑</a></footer>
+  </div>
 </body>
 </html>
