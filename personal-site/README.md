@@ -1,5 +1,9 @@
 # split fiction
 
+在线访问：[duofolio.github.io](https://duofolio.github.io/)
+
+代码仓库：[duofolio/duofolio.github.io](https://github.com/duofolio/duofolio.github.io)
+
 双人个人网站。首页使用斜线分割：左上角 yuan chao 进入 GitHub 项目页，右下角 KingBob34 进入游戏开发个人页，重点展示节点式互动叙事引擎 Loom。支持手机与桌面浏览。
 
 首页向上滚动或上滑进入 yuan chao，向下滚动或下滑进入 KingBob34。斜切区域随手势渐进展开，反向滑动可收回；也可点击入口或使用方向键。进入后恢复个人页的正常滚动。尊重系统减少动态效果的设置。
@@ -23,6 +27,8 @@
 启用后，向 `master` 推送网页修改会自动部署；也可以在 **Actions → Deploy GitHub Pages → Run workflow** 手动发布。等待部署成功后，在 **Settings → Pages** 查看公网地址。
 
 所有静态资源使用相对地址，兼容个人主页和项目子路径。部署只包含 `dist/` 下的网页与素材。
+
+组织与仓库改名后，已有本地克隆可运行 `git remote set-url origin https://github.com/duofolio/duofolio.github.io.git` 更新远程地址。本地文件夹名称不影响网站地址。
 
 ## 个性化
 
