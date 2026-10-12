@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="个人主页 · 记录想法、代码与开源项目。">
+  <meta name="theme-color" content="#f5f3ec">
+  <title>yuan chao / split fiction</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="profile.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到内容</a>
+  <div class="page-shell">
+    <header class="header">
+      <a href="index.html" class="brand" aria-label="返回 split fiction 首页"><span class="brand-mark">*</span><span id="brand-name">split fiction</span><span class="brand-slash">/</span></a>
+      <nav aria-label="主导航"><a href="#projects">项目 <span>01</span></a><a href="#about">关于 <span>02</span></a><a class="github-link" href="#connect">GitHub ↗</a></nav>
+    </header>
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-dot"></span> A PERSONAL SPACE ON THE WEB</p>
+          <p class="hello" id="hello">你好，欢迎来到我的小站。</p>
+          <h1 id="hero-title">把想法<br>写成<span class="accent">代码</span><span class="period">。</span></h1>
+          <p class="intro" id="bio">这里收集我的项目、探索和灵感。<br>从一个小小的想法开始，让它慢慢发生。</p>
+          <div class="hero-actions"><a class="button" href="#projects">探索我的项目 <span>↗</span></a><a class="text-link github-link" href="#connect">在 GitHub 见 <span>↗</span></a></div>
+          <div class="hero-note"><span>IDEAS → CODE → SOMETHING REAL</span><span>向下探索 ↓</span></div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-top"><span>THE CREATIVE PROCESS</span><span>FIG. 001</span></div>
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div>
+          <div class="art-cross cross-one">+</div><div class="art-cross cross-two">+</div>
+          <div class="code-sculpture"><span>&lt;</span><i>/</i><span>&gt;</span></div>
+          <div class="art-tag"><span class="tiny-dot"></span> always a work in progress</div>
+          <div class="art-bottom"><span>不断探索，无限可能。</span><span>∞</span></div>
+        </div>
+      </section>
+      <div class="info-strip"><span><i class="status-dot"></i> BUILT WITH CURIOSITY</span><span id="public-count">代码 · 项目 · 想法</span><span>保持好奇，持续创造 ↗</span></div>
+      <section class="projects-section" id="projects" aria-labelledby="projects-title">
+        <div class="section-heading"><div><p class="eyebrow">01 / SELECTED WORK</p><h2 id="projects-title">在做的事情<span class="accent">.</span></h2></div><a class="text-link github-link" href="#connect">全部仓库 <span>↗</span></a></div>
+        <div class="project-toolbar"><div class="filters" id="filters" aria-label="项目语言筛选"><button class="filter active" type="button" aria-pressed="true" data-language="all">全部项目</button></div><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索项目" aria-label="搜索项目"></label></div>
+        <p id="project-status" class="project-status" role="status">等待连接 GitHub 主页。</p>
+        <div class="project-grid" id="project-grid"></div>
+      </section>
+      <section class="about-section" id="about" aria-labelledby="about-title"><div><p class="eyebrow">02 / A LITTLE ABOUT ME</p><h2 id="about-title">代码之外，<br>好奇心之内<span class="accent">.</span></h2></div><div class="about-body"><p id="about-bio">这是我的个人空间，也是想法生长的地方。用代码记录探索，用项目连接灵感。</p><div class="profile-row"><img id="avatar" alt="GitHub 头像" width="56" height="56" hidden><div><strong id="profile-name">我的 GitHub</strong><span id="profile-handle">让每一次探索留下痕迹。</span></div><a class="profile-arrow github-link" href="#connect" aria-label="访问 GitHub 主页">↗</a></div></div></section>
+      <section class="connect" id="connect"><p class="eyebrow">LET’S CONNECT</p><h2>下一个想法，<br>从一次交流开始<span>↗</span></h2><a class="button button-light github-link" id="connect-link" href="#projects">先看看项目 <span>↗</span></a></section>
+    </main>
+    <footer><span>© <span id="year"></span> <span id="footer-name">个人主页</span></span><span>MADE OF CODE & CURIOSITY</span><a href="#">回到顶部 ↑</a></footer>
+  </div>
+</body>
+</html>
