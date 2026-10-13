@@ -1,8 +1,8 @@
 # split fiction
 
-在线访问：[duofolio.github.io](https://duofolio.github.io/)
+在线访问：[duofolio.github.io/split_fiction](https://duofolio.github.io/split_fiction/)
 
-代码仓库：[duofolio/duofolio.github.io](https://github.com/duofolio/duofolio.github.io)
+代码仓库：[duofolio/split_fiction](https://github.com/duofolio/split_fiction)
 
 双人个人网站。首页使用斜线分割：左上角 yuan chao 进入 GitHub 项目页，右下角 KingBob34 进入游戏开发个人页，重点展示节点式互动叙事引擎 Loom。支持手机与桌面浏览。
 
@@ -28,7 +28,9 @@
 
 所有静态资源使用相对地址，兼容个人主页和项目子路径。部署只包含 `dist/` 下的网页与素材。
 
-组织与仓库改名后，已有本地克隆可运行 `git remote set-url origin https://github.com/duofolio/duofolio.github.io.git` 更新远程地址。本地文件夹名称不影响网站地址。
+组织改名后，已有本地克隆可运行 `git remote set-url origin https://github.com/duofolio/split_fiction.git` 更新远程地址。本地文件夹名称不影响网站地址。
+
+当前使用项目站点，访问地址包含仓库路径 `/split_fiction/`。`https://duofolio.github.io/` 是组织主页地址，不是此仓库的入口；请分享上方完整网址。
 
 ## 个性化
 
