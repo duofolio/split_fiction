@@ -10,6 +10,7 @@
   let active = null;
   let target = 0;
   let progress = 0;
+  let velocity = 0;
   let animation = 0;
   let settleTimer = 0;
   let previewOpacity = 0;
@@ -18,6 +19,7 @@
   let lastTime = 0;
   let touch = null;
   let draggedUntil = 0;
+  let mobile = matchMedia('(max-width: 540px)').matches;
   document.body.classList.add('gesture-home');
   const smoothstep = value => { const x = Math.max(0, Math.min(1, value)); return x * x * (3 - 2 * x); };
   function prepare(person) {
@@ -27,8 +29,10 @@
     preview.frame.src = links[person].href;
   }
   for (const [person,preview] of Object.entries(previews)) {
-    preview.frame.addEventListener('load', () => {
+    preview.frame.addEventListener('load', async () => {
       if (!preview.started) return;
+      // Reveal the final font layout, rather than swapping fonts mid-transition.
+      try { await preview.frame.contentDocument.fonts.ready; } catch {}
       preview.ready = true;
       if (active === person) schedule();
     });
@@ -44,7 +48,6 @@
 
   // Expand the selected diagonal half into a full viewport.
   function polygon(person, amount) {
-    const mobile = matchMedia('(max-width: 540px)').matches;
     const start = mobile
       ? (person === 'yuan' ? [[0,0],[100,0],[100,25],[0,75]] : [[0,75],[100,25],[100,100],[0,100]])
       : (person === 'yuan' ? [[0,0],[84,0],[16,100],[0,100]] : [[84,0],[100,0],[100,100],[16,100]]);
@@ -53,15 +56,16 @@
   }
   function draw() {
     if (!active) return;
-    const clip = polygon(active, progress);
+    const reveal = smoothstep(progress);
+    const clip = polygon(active, reveal);
     stage.style.setProperty('--reveal', progress);
     stage.style.setProperty('--content-fade', Math.max(smoothstep(progress * .85), previewOpacity));
     links[active].style.clipPath = clip;
     portal.style.clipPath = clip;
     portal.style.opacity = previewOpacity;
     const frame = previews[active].frame;
-    const offset = (active === 'yuan' ? -1 : 1) * (1 - progress) * 14;
-    frame.style.transform = reduceMotion.matches ? 'none' : `translateY(${offset}px) scale(${1.018 - progress * .018})`;
+    const offset = (active === 'yuan' ? -1 : 1) * (1 - reveal) * 8;
+    frame.style.transform = reduceMotion.matches ? 'none' : `translateY(${offset}px) scale(${1.008 - reveal * .008})`;
   }
   function reset() {
     clearTimeout(settleTimer);
@@ -73,7 +77,7 @@
     stage.classList.remove('transitioning');
     portal.hidden = true;
     portal.style.opacity = 0;
-    active = null; target = 0; progress = 0; previewOpacity = 0; animation = 0; lastTime = 0; navigating = false; completionTimer = 0;
+    active = null; target = 0; progress = 0; velocity = 0; previewOpacity = 0; animation = 0; lastTime = 0; navigating = false; completionTimer = 0;
     status.textContent = '';
   }
   function finish() {
@@ -86,11 +90,20 @@
     if (!active) { animation = 0; return; }
     const elapsed = lastTime ? Math.min(time - lastTime, 40) : 16;
     lastTime = time;
-    progress += (target - progress) * (1 - Math.exp(-elapsed / 65));
-    if (Math.abs(target - progress) < .004) progress = target;
-    const opacityTarget = previews[active].ready ? smoothstep((progress - .08) / .72) : 0;
-    previewOpacity += (opacityTarget - previewOpacity) * (1 - Math.exp(-elapsed / 90));
-    if (Math.abs(opacityTarget - previewOpacity) < .004) previewOpacity = opacityTarget;
+    // A critically damped spring keeps velocity continuous when a gesture settles
+    // or reverses, and cannot overshoot the diagonal's final position.
+    const seconds = elapsed / 1000;
+    const omega = 18;
+    const displacement = progress - target;
+    const impulse = velocity + omega * displacement;
+    const decay = Math.exp(-omega * seconds);
+    progress = target + (displacement + impulse * seconds) * decay;
+    velocity = (velocity - omega * impulse * seconds) * decay;
+    progress = Math.max(0, Math.min(1, progress));
+    if (Math.abs(target - progress) < .001 && Math.abs(velocity) < .02) { progress = target; velocity = 0; }
+    const opacityTarget = previews[active].ready ? smoothstep((progress - .12) / .58) : 0;
+    previewOpacity += (opacityTarget - previewOpacity) * (1 - Math.exp(-elapsed / 45));
+    if (Math.abs(opacityTarget - previewOpacity) < .003) previewOpacity = opacityTarget;
     draw();
     if (progress === 1) {
       if (previewOpacity === 1) { finish(); animation = 0; return; }
@@ -98,7 +111,7 @@
       if (!completionTimer) completionTimer = setTimeout(finish, 900);
     }
     if (progress === 0 && target === 0) { reset(); return; }
-    if (progress !== target || previewOpacity !== opacityTarget) animation = requestAnimationFrame(animate);
+    if (progress !== target || velocity !== 0 || previewOpacity !== opacityTarget) animation = requestAnimationFrame(animate);
     else { animation = 0; lastTime = 0; }
   }
   function schedule() { if (active && !animation) animation = requestAnimationFrame(animate); }
@@ -120,7 +133,7 @@
     settleTimer = setTimeout(() => {
       target = target >= commitThreshold ? 1 : 0;
       schedule();
-    }, 220);
+    }, 150);
   }
   function advance(delta) {
     if (navigating || Math.abs(delta) < 1) return;
@@ -175,6 +188,6 @@
       clearTimeout(settleTimer); begin(person); target = 1; schedule();
     });
   }
-  window.addEventListener('resize', draw);
+  window.addEventListener('resize', () => { mobile = matchMedia('(max-width: 540px)').matches; draw(); });
   window.addEventListener('pageshow', event => { if (event.persisted) reset(); });
 })();

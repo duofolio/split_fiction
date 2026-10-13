@@ -52,7 +52,7 @@ h2{font-size:clamp(70px,8.8vw,136px);font-weight:500;line-height:.94;letter-spac
 .gesture-home .split-home{height:100svh;min-height:0;touch-action:pan-x pinch-zoom}
 .portal{position:fixed;inset:0;z-index:8;pointer-events:none;overflow:hidden;opacity:0;will-change:clip-path,opacity}
 .portal[hidden]{display:none}
-.portal iframe{display:block;width:100%;height:100%;border:0;pointer-events:none;transform-origin:center;will-change:transform}
+.portal iframe{display:block;width:100%;height:100%;border:0;pointer-events:none;transform-origin:center;will-change:transform;contain:layout paint}
 .portal iframe[hidden]{display:none}
 .person{transition:transform .4s cubic-bezier(.22,1,.36,1)}
 .world:hover .person{transform:translateY(-5px)}
@@ -67,5 +67,13 @@ h2{font-size:clamp(70px,8.8vw,136px);font-weight:500;line-height:.94;letter-spac
 .transitioning .expanding .person,.transitioning .expanding .corner-note{opacity:calc(1 - var(--content-fade,0));transform:translateY(calc(var(--reveal,0) * -12px))}
 .transitioning .site-title,.transitioning .split-line,.transitioning .center-mark,.transitioning:after{opacity:calc(1 - var(--reveal,0) * 3)}
 .transition-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+/* Keep the expanded preview visible while the real document replaces it. */
+@view-transition{navigation:auto}
+::view-transition-group(root){animation-duration:.24s}
+::view-transition-old(root){animation:handoff-out .24s ease both}
+::view-transition-new(root){animation:handoff-in .24s ease both}
+@keyframes handoff-out{to{opacity:0}}
+@keyframes handoff-in{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){::view-transition-group(root),::view-transition-old(root),::view-transition-new(root){animation:none}}
 @media(max-height:650px) and (min-width:541px){.gesture-home .person-yuan{top:19%}.gesture-home .person-bob{bottom:12%}.gesture-home h2{font-size:clamp(46px,12vh,80px);margin:14px 0}.gesture-home .world-description{margin-bottom:14px}.gesture-home .chapter{font-size:8px}}
 @media(max-height:700px) and (max-width:540px){.gesture-home h2{font-size:52px}.gesture-home .person-yuan{top:16%}.gesture-home .person-bob{bottom:10%}.gesture-home .world-description{margin-bottom:12px}.gesture-home .enter{font-size:9px}}
