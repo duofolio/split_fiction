@@ -1,6 +1,6 @@
 # split fiction
 
-在线访问：[duofolio.github.io/split_fiction](https://duofolio.github.io/split_fiction/)
+在线访问：[duofolio.github.io](https://duofolio.github.io/)
 
 代码仓库：[duofolio/split_fiction](https://github.com/duofolio/split_fiction)
 
@@ -20,7 +20,11 @@
 
 ## GitHub Pages
 
-仓库已配置 `.github/workflows/deploy-pages.yml`，直接发布 `personal-site/dist/`，不需要搬动文件或运行构建命令。
+源码仓库保持为 `duofolio/split_fiction`；[独立发布仓库](https://github.com/duofolio/duofolio.github.io)负责 `https://duofolio.github.io/` 主页。它每 10 分钟检查本仓库的 `master` 分支，读取 `personal-site/dist/`，仅在版本变化时重新发布。GitHub 的定时任务可能延迟。
+
+修改网页后照常提交并推送到本仓库。需要立即更新主页时，在发布仓库选择 **Actions → Publish duofolio homepage → Run workflow**。部署使用发布仓库自带的工作流权限，不保存跨仓库写入密钥或个人访问令牌。
+
+本仓库保留 `.github/workflows/deploy-pages.yml`，推送网页修改时也会直接发布项目地址 `https://duofolio.github.io/split_fiction/`，不需要搬动文件或运行构建命令。
 
 首次部署在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。GitHub Free 的 Pages 需要公开仓库；私有仓库需要支持 Pages 的付费方案。
 
@@ -30,7 +34,7 @@
 
 组织改名后，已有本地克隆可运行 `git remote set-url origin https://github.com/duofolio/split_fiction.git` 更新远程地址。本地文件夹名称不影响网站地址。
 
-当前使用项目站点，访问地址包含仓库路径 `/split_fiction/`。`https://duofolio.github.io/` 是组织主页地址，不是此仓库的入口；请分享上方完整网址。
+对外分享 `https://duofolio.github.io/` 即可。独立发布仓库承担组织主页，因此无需改变源码仓库的名称。
 
 ## 个性化
 
