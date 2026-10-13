@@ -165,7 +165,7 @@
     if (active) reset();
     active = person;
     portal.hidden = false;
-    portal.style.background = '#f5f3ec';
+    portal.style.background = person === 'yuan' ? '#fafafa' : '#f5f3ec';
     for (const [name,preview] of Object.entries(previews)) preview.frame.hidden = name !== person;
     stage.classList.add('transitioning');
     links[person].classList.add('expanding');
