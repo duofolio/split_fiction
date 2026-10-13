@@ -20,6 +20,8 @@
   let touch = null;
   let draggedUntil = 0;
   let mobile = matchMedia('(max-width: 540px)').matches;
+  const homeTitle = document.title;
+  history.replaceState({...history.state, splitHome:true}, '', location.href);
   document.body.classList.add('gesture-home');
   const smoothstep = value => { const x = Math.max(0, Math.min(1, value)); return x * x * (3 - 2 * x); };
   function prepare(person) {
@@ -34,6 +36,12 @@
       // Reveal the final font layout, rather than swapping fonts mid-transition.
       try { await preview.frame.contentDocument.fonts.ready; } catch {}
       preview.ready = true;
+      const homeLink = preview.frame.contentDocument?.querySelector('a[aria-label="返回 split fiction 首页"]');
+      homeLink?.addEventListener('click', event => {
+        if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        history.back();
+      });
       if (active === person) schedule();
     });
     links[person].addEventListener('pointerenter', () => prepare(person));
@@ -75,6 +83,17 @@
     stage.style.removeProperty('--reveal');
     stage.style.removeProperty('--content-fade');
     stage.classList.remove('transitioning');
+    stage.hidden = false;
+    stage.inert = false;
+    portal.classList.remove('entered');
+    portal.inert = true;
+    portal.setAttribute('aria-hidden', 'true');
+    portal.style.clipPath = '';
+    for (const preview of Object.values(previews)) {
+      preview.frame.tabIndex = -1;
+      try { preview.frame.contentWindow.scrollTo(0, 0); } catch {}
+    }
+    document.title = homeTitle;
     portal.hidden = true;
     portal.style.opacity = 0;
     active = null; target = 0; progress = 0; velocity = 0; previewOpacity = 0; animation = 0; lastTime = 0; navigating = false; completionTimer = 0;
@@ -84,7 +103,33 @@
     if (navigating || !active) return;
     clearTimeout(completionTimer);
     navigating = true;
-    location.assign(links[active].href);
+    if (!previews[active].ready) { location.assign(links[active].href); return; }
+    // The expanded document becomes the page itself: no second network load,
+    // font swap, script restart, or cross-document animation at the endpoint.
+    history.pushState({splitPerson:active}, '', links[active].href);
+    enterPage(active);
+  }
+  function enterPage(person) {
+    active = person;
+    navigating = true;
+    progress = target = previewOpacity = 1;
+    velocity = 0;
+    portal.hidden = false;
+    portal.classList.add('entered');
+    portal.inert = false;
+    portal.removeAttribute('aria-hidden');
+    portal.style.opacity = 1;
+    portal.style.clipPath = 'none';
+    stage.hidden = true;
+    stage.inert = true;
+    for (const [name,preview] of Object.entries(previews)) {
+      preview.frame.hidden = name !== person;
+      preview.frame.tabIndex = name === person ? 0 : -1;
+      preview.frame.style.transform = 'none';
+    }
+    document.title = previews[person].frame.contentDocument?.title || homeTitle;
+    status.textContent = '';
+    previews[person].frame.contentWindow.focus();
   }
   function animate(time) {
     if (!active) { animation = 0; return; }
@@ -148,6 +193,7 @@
     settle();
   }
   window.addEventListener('wheel', event => {
+    if (navigating) return;
     if (event.ctrlKey || event.metaKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
     event.preventDefault();
     const factor = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1;
@@ -173,6 +219,7 @@
   stage.addEventListener('touchend', endTouch);
   stage.addEventListener('touchcancel', () => { touch = null; target = 0; schedule(); });
   window.addEventListener('keydown', event => {
+    if (navigating) return;
     if (event.ctrlKey || event.metaKey || event.altKey) return;
     if (event.key === 'Escape' && active) { clearTimeout(settleTimer); clearTimeout(completionTimer); completionTimer = 0; target = 0; schedule(); }
     if (['ArrowUp','PageUp','ArrowDown','PageDown'].includes(event.key)) {
@@ -190,4 +237,12 @@
   }
   window.addEventListener('resize', () => { mobile = matchMedia('(max-width: 540px)').matches; draw(); });
   window.addEventListener('pageshow', event => { if (event.persisted) reset(); });
+  window.addEventListener('popstate', event => {
+    clearTimeout(settleTimer);
+    clearTimeout(completionTimer);
+    cancelAnimationFrame(animation);
+    animation = 0;
+    if (event.state?.splitPerson && previews[event.state.splitPerson]?.ready) enterPage(event.state.splitPerson);
+    else reset();
+  });
 })();
